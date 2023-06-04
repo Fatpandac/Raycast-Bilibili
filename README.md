@@ -1,3 +1,5 @@
 # Bilibili
 
-Get notify from bilibili
+Quickly surfing bilibili.com.
+
+![Bilibili](./metadata/bilibili-1.png)

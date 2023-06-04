@@ -12,15 +12,27 @@
   "license": "MIT",
   "commands": [
     {
-      "name": "dynamicVideoFeed",
-      "title": "Show Dynamic Video Feed",
-      "description": "Show all dynamic video feed",
+      "name": "dynamicFeed",
+      "title": "Show Dynamic Feed",
+      "description": "Show all dynamic feed",
       "mode": "view"
     },
     {
       "name": "popularVideos",
       "title": "Popular Videos",
       "description": "Show popular videos",
+      "mode": "view"
+    },
+    {
+      "name": "rcmdVideos",
+      "title": "Recommend Videos",
+      "description": "Show recommend videos",
+      "mode": "view"
+    },
+    {
+      "name": "popularSeries",
+      "title": "Weekly Popular Series",
+      "description": "Show weekly popular series",
       "mode": "view"
     },
     {

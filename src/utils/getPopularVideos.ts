@@ -1,12 +1,13 @@
-import { Cache } from "@raycast/api";
-import got from "got";
 import { API } from "./api";
 
-export async function getPopularVideos() {
-  const cache = new Cache();
-  const cookie = JSON.parse(cache.get("cookie") || "{}");
+import got from "got";
+import { Cache } from "@raycast/api";
 
-  const res: Bilibili.popularVideosResponse = await got(API.popularVideos(1, 25), {
+export async function getPopularVideos(pn: number) {
+  const cache = new Cache();
+  const cookie = cache.get("cookie") || "{}";
+
+  const res: Bilibili.popularVideosResponse = await got(API.popularVideos(pn, 20), {
     headers: {
       cookie,
     },

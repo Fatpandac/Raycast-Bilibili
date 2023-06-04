@@ -1,4 +1,4 @@
-import { usePopularVideos } from "./hooks";
+import { useRcmdVideos } from "./hooks";
 import { NoLoginView, Video } from "./components";
 import { checkLogin, formatNumber, secondToDate } from "./utils";
 
@@ -8,10 +8,10 @@ import { List } from "@raycast/api";
 export default function Command() {
   if (!checkLogin()) return <NoLoginView />;
 
-  const [pn, setPn] = useState(1);
+  const [idx, setIdx] = useState(1);
   const [countSet, setCountSet] = useState(new Set<string | undefined>([]));
 
-  const { popularVideos, isLoading } = usePopularVideos(pn);
+  const { rcmdVideos, isLoading } = useRcmdVideos(idx);
 
   return (
     <List
@@ -21,14 +21,14 @@ export default function Command() {
       onSelectionChange={(id) => {
         setCountSet(countSet.add(id));
 
-        if (countSet.size % 20 === 0) setPn(pn + 1);
+        if (countSet.size % 16 === 0) setIdx(idx + 1);
       }}
     >
-      {popularVideos?.map((item) => (
+      {rcmdVideos?.map((item) => (
         <Video
           title={item.title}
           cover={item.pic}
-          url={item.short_link}
+          url={item.uri}
           uploader={{
             mid: item.owner.mid,
             name: item.owner.name,
@@ -37,11 +37,11 @@ export default function Command() {
           duration={secondToDate(item.duration)}
           pubdate={item.pubdate}
           stat={{
-            highlight: item.rcmd_reason.content,
-            view: formatNumber(item.stat.view),
-            danmaku: formatNumber(item.stat.danmaku),
-            coin: formatNumber(item.stat.coin),
-            like: formatNumber(item.stat.like),
+            highlight: item.rcmd_reason?.content || undefined,
+            view: formatNumber(item.stat?.view),
+            danmaku: formatNumber(item.stat?.danmaku),
+            coin: formatNumber(item.stat?.coin),
+            like: formatNumber(item.stat?.like),
           }}
         />
       ))}
