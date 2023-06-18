@@ -44,7 +44,8 @@ declare global {
       ttl: number;
     }
 
-    export type dynamicItems = (dynmamicVideo | dynamicPost | dynamicMusic | dynamicLive)[];
+    export type dynamicItem = dynmamicVideo | dynamicPost | dynamicMusic | dynamicLive;
+    export type dynamicItems = dynamicItem[];
 
     export type dynamicModuleAuthor = {
       face: string;
