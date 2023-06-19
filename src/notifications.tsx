@@ -63,11 +63,11 @@ export default async function Command() {
     }
 
     const notifications = [
-      ...oldNotifications,
       ...unNotifies.map((item) => ({
         ...item,
         isNotified: true,
       })),
+      ...oldNotifications,
     ];
 
     await LocalStorage.setItem("notifications", JSON.stringify(notifications.slice(0, 25)));
