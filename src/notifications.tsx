@@ -2,11 +2,6 @@ import { LocalStorage } from "@raycast/api";
 import { checkLogin, getDynamicFeed } from "./utils";
 import { runAppleScript } from "run-applescript";
 
-interface Notification {
-  id: string;
-  isNotified: boolean;
-}
-
 function notify(item: Bilibili.dynamicItem) {
   const doNotify = (title: string, subtitle: string) => {
     runAppleScript(`display notification "${subtitle}" with title "${title} - Bilibili"`);
@@ -41,42 +36,24 @@ export default async function Command() {
   if (!checkLogin()) return;
 
   const items = await getDynamicFeed();
-  const newNotifications: Notification[] = items.map((item) => ({
-    id: item.id_str,
-    isNotified: false,
-  }));
-  const oldNotifications: Notification[] = JSON.parse((await LocalStorage.getItem("notifications")) || "[]");
+  const newNotifications = items.map((item) => item.id_str);
+  const oldNotifications: string[] = JSON.parse((await LocalStorage.getItem("notifications")) || "[]");
 
-  if (oldNotifications.length != 0) {
-    const notifiedsId = oldNotifications.map((item) => item.id);
-    const unNotifies = newNotifications.filter((item) => !notifiedsId.includes(item.id));
+  if (oldNotifications.length !== 0) {
+    const startNotifyIndex = oldNotifications
+      .map((oldNotifyId) => newNotifications.findIndex((newNotifyId) => newNotifyId === oldNotifyId))
+      .filter((item) => item >= 0)[0];
 
-    if (!unNotifies.length) return;
-
+    const unNotifies = newNotifications.slice(0, startNotifyIndex);
     for (const unNotify of unNotifies) {
       items.map((item) => {
-        if (item.id_str === unNotify.id) {
+        if (item.id_str === unNotify) {
           notify(item);
           sleep(500);
         }
       });
     }
-
-    const notifications = [
-      ...unNotifies.map((item) => ({
-        ...item,
-        isNotified: true,
-      })),
-      ...oldNotifications,
-    ];
-
-    await LocalStorage.setItem("notifications", JSON.stringify(notifications.slice(0, 25)));
-  } else {
-    const notifications = newNotifications.map((item) => ({
-      ...item,
-      isNotified: true,
-    }));
-
-    await LocalStorage.setItem("notifications", JSON.stringify(notifications));
   }
+
+  await LocalStorage.setItem("notifications", JSON.stringify(newNotifications));
 }
