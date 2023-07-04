@@ -2,7 +2,7 @@ import { LocalStorage } from "@raycast/api";
 import { checkLogin, getDynamicFeed } from "./utils";
 import { runAppleScript } from "run-applescript";
 
-function notify(item: Bilibili.dynamicItem) {
+function notify(item: Bilibili.DynamicItem) {
   const doNotify = (title: string, subtitle: string) => {
     runAppleScript(`display notification "${subtitle}" with title "${title} - Bilibili"`);
   };
