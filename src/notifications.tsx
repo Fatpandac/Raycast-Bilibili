@@ -1,9 +1,17 @@
-import { LocalStorage } from "@raycast/api";
-import { checkLogin, getDynamicFeed } from "./utils";
 import { runAppleScript } from "run-applescript";
+import { checkLogin, getDynamicFeed } from "./utils";
+import { LocalStorage, getPreferenceValues } from "@raycast/api";
+
+interface Preferences {
+  justNotifyVideos: boolean
+}
 
 function notify(item: Bilibili.DynamicItem) {
+  const preference: Preferences = getPreferenceValues()
+
   const doNotify = (title: string, subtitle: string) => {
+    if (preference.justNotifyVideos && item.type !== "DYNAMIC_TYPE_AV") return;
+
     runAppleScript(`display notification "${subtitle}" with title "${title} - Bilibili"`);
   };
 

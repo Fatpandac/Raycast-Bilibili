@@ -1,17 +1,23 @@
 import { useDynamicFeed } from "./hooks";
 import { checkLogin, formatUrl } from "./utils";
 import { NoLoginView, Video, Post } from "./components";
+import { List, getPreferenceValues } from "@raycast/api";
 
-import { List } from "@raycast/api";
+interface Preferences {
+  justShowVideos: boolean
+}
 
 export default function Command() {
   if (!checkLogin()) return <NoLoginView />;
+  const preference = getPreferenceValues<Preferences>()
 
   const { dynamicItems, isLoading } = useDynamicFeed();
 
+  const videoTypes = ["DYNAMIC_TYPE_LIVE_RCMD", "DYNAMIC_TYPE_AV"]
+
   return (
     <List filtering={false} isLoading={isLoading} isShowingDetail={true}>
-      {dynamicItems?.map((item) => {
+      {dynamicItems?.filter((item) => preference.justShowVideos ? videoTypes.includes(item.type) : true).map((item) => {
         switch (item.type) {
           case "DYNAMIC_TYPE_AV":
             return (
