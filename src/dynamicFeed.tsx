@@ -46,7 +46,7 @@ export default function Command() {
               <Post
                 desc={item.modules.module_dynamic.desc.text}
                 pubdate={item.modules.module_author.pub_ts}
-                url={`https://t.bilibili.com/${item.id_str}`}
+                url={`https://www.bilibili.com/opus/${item.id_str}`}
                 uploader={{
                   mid: item.modules.module_author.mid,
                   name: item.modules.module_author.name,
