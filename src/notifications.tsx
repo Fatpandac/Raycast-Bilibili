@@ -11,7 +11,7 @@ interface Preferences {
 function notify(item: Bilibili.DynamicItem) {
   const preference: Preferences = getPreferenceValues()
 
-  const doNotify = async (title: string, subtitle: string, link: string) => {
+  const doNotify = (title: string, subtitle: string, link: string) => {
     if (preference.justNotifyVideos && item.type !== "DYNAMIC_TYPE_AV") return;
     if (!preference.terminalNotifierPath) {
       runAppleScript(`display notification "${subtitle}" with title "${title} - Bilibili"`);
@@ -45,10 +45,13 @@ function notify(item: Bilibili.DynamicItem) {
   }
 }
 
+function sleep(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 export default async function Command() {
   if (!checkLogin()) return;
 
-  console.log('running')
   const items = await getDynamicFeed();
   const newNotifications = items.map((item) => item.id_str);
   const oldNotifications: string[] = JSON.parse((await LocalStorage.getItem("notifications")) || "[]");
@@ -59,13 +62,12 @@ export default async function Command() {
       .filter((item) => item >= 0)[0];
 
     const unNotifies = newNotifications.slice(0, startNotifyIndex);
-    console.log(unNotifies)
     for (const unNotify of unNotifies) {
       console.log(unNotify)
-      items.map((item) => {
+      items.map(async (item) => {
         if (item.id_str === unNotify) {
-          console.log('sdf')
-          notify(item);
+          notify(item)
+          await sleep(500)
         }
       });
     }
