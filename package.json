@@ -61,7 +61,7 @@
         }
       ],
       "mode": "no-view",
-      "interval": "1s"
+      "interval": "1m"
     },
     {
       "name": "popularSeries",

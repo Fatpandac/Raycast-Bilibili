@@ -68,7 +68,7 @@ declare global {
       };
     };
 
-    type DynmamicVideoType = "DYNAMIC_TYPE_AV"
+    type DynmamicVideoType = "DYNAMIC_TYPE_AV";
     export interface DynmamicVideo {
       id_str: string;
       modules: {
@@ -100,7 +100,7 @@ declare global {
       type: DynmamicVideoType;
     }
 
-    type DynamicPostType = "DYNAMIC_TYPE_DRAW" | "DYNAMIC_TYPE_WORD" | "DYNAMIC_TYPE_FORWARD"
+    type DynamicPostType = "DYNAMIC_TYPE_DRAW" | "DYNAMIC_TYPE_WORD" | "DYNAMIC_TYPE_FORWARD";
     export interface DynamicPost {
       id_str: string;
       modules: {
@@ -115,7 +115,7 @@ declare global {
       type: DynamicPostType;
     }
 
-    type DynamicMusicType = "DYNAMIC_TYPE_MUSIC"
+    type DynamicMusicType = "DYNAMIC_TYPE_MUSIC";
     export interface DynamicMusic {
       id_str: string;
       modules: {
@@ -138,7 +138,7 @@ declare global {
       type: DynamicMusicType;
     }
 
-    type DynamicLiveType = "DYNAMIC_TYPE_LIVE_RCMD"
+    type DynamicLiveType = "DYNAMIC_TYPE_LIVE_RCMD";
     export interface DynamicLive {
       id_str: string;
       modules: {
