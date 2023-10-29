@@ -1,7 +1,7 @@
 import { getDynamicFeed } from "../utils";
 
 import { useEffect, useState } from "react";
-import { closeMainWindow, showToast, Toast } from "@raycast/api";
+import { showToast, Toast } from "@raycast/api";
 import { getVideoInfo } from "../utils/getVideoInfo";
 import { getPlayUrl } from "../utils/getPlayUrl";
 
@@ -18,19 +18,13 @@ export function useDynamicFeed() {
           res.map(async (item: Bilibili.DynamicItem) => {
             if (item.type !== "DYNAMIC_TYPE_AV") return item;
 
-            const videoInfo = await getVideoInfo(
-              item.modules.module_dynamic.major.archive.aid,
-            );
-            const videoPlayUrl = await getPlayUrl(
-              videoInfo.bvid,
-              videoInfo.cid as any as string,
-            );
+            const videoInfo = await getVideoInfo(item.modules.module_dynamic.major.archive.aid);
+            const videoPlayUrl = await getPlayUrl(videoInfo.bvid, videoInfo.cid.toString());
 
-            item.modules.module_dynamic.major.archive.last_play_time =
-              videoPlayUrl.last_play_time;
+            item.modules.module_dynamic.major.archive.last_play_time = videoPlayUrl.last_play_time;
 
             return item;
-          }),
+          })
         );
 
         setDynamicItems(dynamicList);

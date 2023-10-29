@@ -7,19 +7,17 @@ declare global {
       code: number;
       message: string;
       ttl: number;
-      data: {};
+      data: object;
     }
 
-    export interface GennerateQRCodeResponse
-      extends Omit<BaseResponse, "data"> {
+    export interface GennerateQRCodeResponse extends Omit<BaseResponse, "data"> {
       data: {
         url: string;
         qrcode_key: string;
       };
     }
 
-    export interface CheckQRCodeStatusResponse
-      extends Omit<BaseResponse, "data"> {
+    export interface CheckQRCodeStatusResponse extends Omit<BaseResponse, "data"> {
       data: {
         url: string;
         refresh_token: string;
@@ -39,16 +37,8 @@ declare global {
       };
     }
 
-    export type DynamicItem =
-      | DynmamicVideo
-      | DynamicPost
-      | DynamicMusic
-      | DynamicLive;
-    export type DynamicType =
-      | DynmamicVideoType
-      | DynamicPostType
-      | DynamicMusicType
-      | DynamicLiveType;
+    export type DynamicItem = DynmamicVideo | DynamicPost | DynamicMusic | DynamicLive;
+    export type DynamicType = DynmamicVideoType | DynamicPostType | DynamicMusicType | DynamicLiveType;
     export type DynamicItems = DynamicItem[];
 
     export type DynamicModuleAuthor = {
@@ -104,10 +94,7 @@ declare global {
       type: DynmamicVideoType;
     }
 
-    type DynamicPostType =
-      | "DYNAMIC_TYPE_DRAW"
-      | "DYNAMIC_TYPE_WORD"
-      | "DYNAMIC_TYPE_FORWARD";
+    type DynamicPostType = "DYNAMIC_TYPE_DRAW" | "DYNAMIC_TYPE_WORD" | "DYNAMIC_TYPE_FORWARD";
     export interface DynamicPost {
       id_str: string;
       modules: {
@@ -205,8 +192,7 @@ declare global {
       };
     }
 
-    export interface PopularSeriesListResponse
-      extends Omit<BaseResponse, "data"> {
+    export interface PopularSeriesListResponse extends Omit<BaseResponse, "data"> {
       data: {
         list: PopularSeries[];
       };
@@ -219,8 +205,7 @@ declare global {
       subject: string;
     };
 
-    export interface PopularSeriesVideosResponse
-      extends Omit<BaseResponse, "data"> {
+    export interface PopularSeriesVideosResponse extends Omit<BaseResponse, "data"> {
       data: {
         list: Video[];
       };
