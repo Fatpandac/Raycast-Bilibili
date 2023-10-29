@@ -3,19 +3,23 @@ export {};
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Bilibili {
-    export interface GennerateQRCodeResponse {
+    export interface BaseResponse {
       code: number;
+      message: string;
+      ttl: number;
+      data: {};
+    }
+
+    export interface GennerateQRCodeResponse
+      extends Omit<BaseResponse, "data"> {
       data: {
         url: string;
         qrcode_key: string;
       };
-      message: string;
-      ttl: number;
     }
 
-    export interface CheckQRCodeStatusResponse {
-      code: number;
-      message: string;
+    export interface CheckQRCodeStatusResponse
+      extends Omit<BaseResponse, "data"> {
       data: {
         url: string;
         refresh_token: string;
@@ -25,27 +29,26 @@ declare global {
       };
     }
 
-    export interface LogoutResponse {
-      code: number;
-      status: boolean;
-      ts: number;
-      message: string;
-      data: {
-        redirect: string;
-      };
+    export interface LogoutResponse extends Omit<BaseResponse, "data"> {
+      redirect: string;
     }
 
-    export interface DynamicFeedAllResponse {
-      code: number;
+    export interface DynamicFeedAllResponse extends Omit<BaseResponse, "data"> {
       data: {
         items: DynamicItems;
       };
-      message: string;
-      ttl: number;
     }
 
-    export type DynamicItem = DynmamicVideo | DynamicPost | DynamicMusic | DynamicLive;
-    export type DynamicType = DynmamicVideoType | DynamicPostType | DynamicMusicType | DynamicLiveType;
+    export type DynamicItem =
+      | DynmamicVideo
+      | DynamicPost
+      | DynamicMusic
+      | DynamicLive;
+    export type DynamicType =
+      | DynmamicVideoType
+      | DynamicPostType
+      | DynamicMusicType
+      | DynamicLiveType;
     export type DynamicItems = DynamicItem[];
 
     export type DynamicModuleAuthor = {
@@ -93,6 +96,7 @@ declare global {
               };
               title: string;
               type: number;
+              last_play_time?: number;
             };
           };
         };
@@ -100,7 +104,10 @@ declare global {
       type: DynmamicVideoType;
     }
 
-    type DynamicPostType = "DYNAMIC_TYPE_DRAW" | "DYNAMIC_TYPE_WORD" | "DYNAMIC_TYPE_FORWARD";
+    type DynamicPostType =
+      | "DYNAMIC_TYPE_DRAW"
+      | "DYNAMIC_TYPE_WORD"
+      | "DYNAMIC_TYPE_FORWARD";
     export interface DynamicPost {
       id_str: string;
       modules: {
@@ -155,10 +162,7 @@ declare global {
       type: DynamicLiveType;
     }
 
-    export interface PopularVideosResponse {
-      code: number;
-      message: string;
-      ttl: number;
+    export interface PopularVideosResponse extends Omit<BaseResponse, "data"> {
       data: {
         list: Video[];
         no_more: boolean;
@@ -174,6 +178,7 @@ declare global {
     export type Video = {
       uri: string;
       aid: number;
+      cid: number;
       bvid: string;
       pic: string;
       title: string;
@@ -194,22 +199,17 @@ declare global {
       short_link: string;
     };
 
-    export interface RcmdVideosResponse {
-      code: number;
+    export interface RcmdVideosResponse extends Omit<BaseResponse, "data"> {
       data: {
         item: Video[];
       };
-      message: string;
-      ttl: number;
     }
 
-    export interface PopularSeriesListResponse {
-      code: number;
+    export interface PopularSeriesListResponse
+      extends Omit<BaseResponse, "data"> {
       data: {
         list: PopularSeries[];
       };
-      message: string;
-      ttl: number;
     }
 
     export type PopularSeries = {
@@ -219,13 +219,58 @@ declare global {
       subject: string;
     };
 
-    export interface PopularSeriesVideosResponse {
-      code: number;
-      message: string;
+    export interface PopularSeriesVideosResponse
+      extends Omit<BaseResponse, "data"> {
       data: {
         list: Video[];
       };
-      ttl: number;
+    }
+
+    export interface PlayUrlResponse extends Omit<BaseResponse, "data"> {
+      data: VideoURLData;
+    }
+
+    export interface VideoURLData {
+      from: string;
+      result: string;
+      message: string;
+      quality: number;
+      format: string;
+      timelength: number;
+      accept_format: string;
+      accept_description: string[];
+      accept_quality: number[];
+      video_codecid: number;
+      seek_param: string;
+      seek_type: string;
+      durl: Durl[];
+      support_formats: SupportFormat[];
+      high_format: any;
+      last_play_time: number;
+      last_play_cid: number;
+    }
+
+    export interface Durl {
+      order: number;
+      length: number;
+      size: number;
+      ahead: string;
+      vhead: string;
+      url: string;
+      backup_url: string[];
+    }
+
+    export interface SupportFormat {
+      quality: number;
+      format: string;
+      new_description: string;
+      display_desc: string;
+      superscript: string;
+      codecs: any;
+    }
+
+    export interface VideoInfoResponse extends Omit<BaseResponse, "data"> {
+      data: Video;
     }
   }
 }
