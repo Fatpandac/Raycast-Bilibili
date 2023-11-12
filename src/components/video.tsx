@@ -1,12 +1,15 @@
 import { formatUrl } from "../utils";
 
-import { Action, ActionPanel, Color, Image, List } from "@raycast/api";
+import { Action, ActionPanel, Color, Icon, Image, List } from "@raycast/api";
+import { ConclusionView } from "./conslusionView";
 
 export function Video(props: {
   title: string;
   cover: string;
   url: string;
   uploader: Bilibili.Uploader;
+  bivd: string;
+  cid?: number;
   duration: string;
   pubdate: number;
   stat: {
@@ -60,6 +63,11 @@ export function Video(props: {
       actions={
         <ActionPanel>
           <Action.OpenInBrowser title="Open Video" url={formatUrl(props.url)} />
+          <Action.Push
+            icon={Icon.QuoteBlock}
+            title="AI Summary"
+            target={<ConclusionView bvid={props.bivd} cid={props.cid || 0} up_mid={props.uploader.mid} />}
+          />
           <Action.OpenInBrowser
             title={`Open ${props.uploader.name} Dynamic`}
             url={`https://space.bilibili.com/${props.uploader.mid}/dynamic`}

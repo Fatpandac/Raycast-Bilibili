@@ -15,4 +15,6 @@ export const API = {
   videoInfo: (id: string) => `${BASE_API_URL}/x/web-interface/view?aid=${id}`,
   playUrl: (bvid: string, cid: string) =>
     `${BASE_API_URL}/x/player/playurl?bvid=${bvid}&cid=${cid}&qn=112&fnval=0&fnver=0&fourk=1`,
+  bvidGetCid: (bvid: string) => `${BASE_API_URL}/x/player/pagelist?bvid=${bvid}`,
+  conclusion: () => `${BASE_API_URL}/x/web-interface/view/conclusion/get`,
 };

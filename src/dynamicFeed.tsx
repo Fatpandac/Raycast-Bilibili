@@ -69,6 +69,7 @@ export default function Command() {
                   title={item.modules.module_dynamic.major.archive.title}
                   cover={item.modules.module_dynamic.major.archive.cover}
                   url={item.modules.module_dynamic.major.archive.jump_url}
+                  bivd={item.modules.module_dynamic.major.archive.bvid}
                   uploader={{
                     name: item.modules.module_author.name,
                     face: item.modules.module_author.face,
