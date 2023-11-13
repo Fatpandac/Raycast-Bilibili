@@ -1,5 +1,9 @@
 # Bilibili Changelog
 
+## [New Feature] - 2023-11-13
+
+- Support AI summary video
+
 ## [New Feature] - 2023-10-30
 
 - Implement filter for the dynamic feed.
