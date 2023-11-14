@@ -1,9 +1,7 @@
-import { getDynamicFeed } from "../utils";
+import { getDynamicFeed, getPlayUrl, getVideoInfo } from "../utils";
 
 import { useEffect, useState } from "react";
 import { showToast, Toast } from "@raycast/api";
-import { getVideoInfo } from "../utils/getVideoInfo";
-import { getPlayUrl } from "../utils/getPlayUrl";
 
 export function useDynamicFeed() {
   const [dynamicItems, setDynamicItems] = useState<Bilibili.DynamicItems>([]);

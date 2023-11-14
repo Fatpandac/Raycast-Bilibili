@@ -4,6 +4,7 @@ export * from "./logout";
 export * from "./getCid";
 export * from "./getRcmd";
 export * from "./checkLogin";
+export * from "./getPlayUrl";
 export * from "./checkQRCode";
 export * from "./getConclsion";
 export * from "./getVideoInfo";
