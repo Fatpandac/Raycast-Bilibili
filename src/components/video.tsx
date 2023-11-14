@@ -19,6 +19,7 @@ export function Video(props: {
     like?: string;
     coin?: string;
   };
+  markAsWatchedCallBack?: () => Promise<void>;
 }) {
   return (
     <List.Item
@@ -68,6 +69,16 @@ export function Video(props: {
             title="AI Summary"
             target={<ConclusionView bvid={props.bivd} cid={props.cid || 0} up_mid={props.uploader.mid} />}
           />
+          {props.markAsWatchedCallBack && (
+            <Action.SubmitForm
+              title="Mark as Watched"
+              shortcut={{ modifiers: ["cmd", "shift"], key: "enter" }}
+              icon={Icon.CircleProgress100}
+              onSubmit={async () => {
+                await props.markAsWatchedCallBack();
+              }}
+            />
+          )}
           <Action.OpenInBrowser
             title={`Open ${props.uploader.name} Dynamic`}
             url={`https://space.bilibili.com/${props.uploader.mid}/dynamic`}

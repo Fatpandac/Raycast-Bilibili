@@ -8,6 +8,7 @@ import { getPlayUrl } from "../utils/getPlayUrl";
 export function useDynamicFeed() {
   const [dynamicItems, setDynamicItems] = useState<Bilibili.DynamicItems>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [shouldRefetch, refetch] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -34,7 +35,7 @@ export function useDynamicFeed() {
         showToast(Toast.Style.Failure, "Get dynamic video feed failed");
       }
     })();
-  }, []);
+  }, [shouldRefetch]);
 
-  return { dynamicItems, isLoading };
+  return { dynamicItems, isLoading, refetch };
 }

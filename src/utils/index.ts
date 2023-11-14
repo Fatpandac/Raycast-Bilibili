@@ -6,6 +6,8 @@ export * from "./getRcmd";
 export * from "./checkLogin";
 export * from "./checkQRCode";
 export * from "./getConclsion";
+export * from "./getVideoInfo";
+export * from "./postHeartbeat";
 export * from "./getDynamicFeed";
 export * from "./gennerateQRCode";
 export * from "./getPopularVideos";

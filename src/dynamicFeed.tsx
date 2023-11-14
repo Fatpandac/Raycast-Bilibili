@@ -1,7 +1,7 @@
 import { useDynamicFeed } from "./hooks";
-import { checkLogin, formatUrl } from "./utils";
+import { checkLogin, formatUrl, getVideoInfo, postHeartbeat } from "./utils";
 import { NoLoginView, Post, Video } from "./components";
-import { List } from "@raycast/api";
+import { List, showToast, Toast } from "@raycast/api";
 import { useState } from "react";
 
 type KindType = { id: string; name: string };
@@ -29,7 +29,7 @@ export default function Command() {
   if (!checkLogin()) return <NoLoginView />;
 
   const [filterType, setFilterType] = useState("");
-  const { dynamicItems, isLoading } = useDynamicFeed();
+  const { dynamicItems, isLoading, refetch } = useDynamicFeed();
 
   const videoTypes = ["DYNAMIC_TYPE_LIVE_RCMD", "DYNAMIC_TYPE_AV"];
 
@@ -82,6 +82,25 @@ export default function Command() {
                     view: item.modules.module_dynamic.major.archive.stat.play,
                     danmaku: item.modules.module_dynamic.major.archive.stat.danmaku,
                   }}
+                  markAsWatchedCallBack={
+                    item.modules.module_dynamic.major.archive.last_play_time === 0
+                      ? async () => {
+                        try {
+                          const videoInfo = await getVideoInfo(item.modules.module_dynamic.major.archive.aid);
+
+                          await postHeartbeat(videoInfo.aid, videoInfo.cid);
+
+                          refetch();
+                          await showToast({ style: Toast.Style.Success, title: "Make as watched successfully" });
+                        } catch {
+                          await showToast({
+                            style: Toast.Style.Failure,
+                            title: "Make as watched failed, please retry later",
+                          });
+                        }
+                      }
+                      : undefined
+                  }
                 />
               );
             case "DYNAMIC_TYPE_FORWARD":
