@@ -3,6 +3,7 @@ import { checkLogin, formatUrl, getVideoInfo, postHeartbeat } from "./utils";
 import { NoLoginView, Post, Video } from "./components";
 import { List, showToast, Toast } from "@raycast/api";
 import { useState } from "react";
+import { useCachedState } from "@raycast/utils";
 
 type KindType = { id: string; name: string };
 
@@ -30,6 +31,7 @@ export default function Command() {
 
   const [filterType, setFilterType] = useState("");
   const { dynamicItems, isLoading, refetch } = useDynamicFeed();
+  const [watchedList, setWatchedList] = useCachedState<Array<string>>("watchedList", []);
 
   const videoTypes = ["DYNAMIC_TYPE_LIVE_RCMD", "DYNAMIC_TYPE_AV"];
 
@@ -64,7 +66,7 @@ export default function Command() {
           title={title}
           cover={cover}
           url={jump_url}
-          bivd={bvid}
+          bvid={bvid}
           uploader={{
             mid,
             name,
@@ -77,23 +79,30 @@ export default function Command() {
             view: stat.play,
             danmaku: stat.danmaku,
           }}
-          markAsWatchedCallBack={
+          onOpenCallback={() => {
+            if (watchedList.includes(bvid)) return;
+
+            setWatchedList([bvid, ...watchedList].slice(0, 200));
+            refetch({});
+          }}
+          markAsWatchedCallback={
             last_play_time === 0
               ? async () => {
-                  try {
-                    const videoInfo = await getVideoInfo(aid);
+                try {
+                  const videoInfo = await getVideoInfo(aid);
 
-                    await postHeartbeat(videoInfo.aid, videoInfo.cid);
+                  await postHeartbeat(videoInfo.aid, videoInfo.cid);
+                  if (!watchedList.includes(bvid)) setWatchedList([bvid, ...watchedList].slice(0, 200));
 
-                    refetch({});
-                    await showToast({ style: Toast.Style.Success, title: "Make as watched successfully" });
-                  } catch {
-                    await showToast({
-                      style: Toast.Style.Failure,
-                      title: "Make as watched failed, please retry later",
-                    });
-                  }
+                  refetch({});
+                  await showToast({ style: Toast.Style.Success, title: "Make as watched successfully" });
+                } catch {
+                  await showToast({
+                    style: Toast.Style.Failure,
+                    title: "Make as watched failed, please retry later",
+                  });
                 }
+              }
               : undefined
           }
         />

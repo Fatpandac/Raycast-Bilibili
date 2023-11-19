@@ -8,7 +8,7 @@ export function Video(props: {
   cover: string;
   url: string;
   uploader: Bilibili.Uploader;
-  bivd: string;
+  bvid: string;
   cid?: number;
   duration: string;
   pubdate: number;
@@ -19,7 +19,8 @@ export function Video(props: {
     like?: string;
     coin?: string;
   };
-  markAsWatchedCallBack?: () => Promise<void>;
+  onOpenCallback?: () => void;
+  markAsWatchedCallback?: () => Promise<void>;
 }) {
   return (
     <List.Item
@@ -63,19 +64,23 @@ export function Video(props: {
       }
       actions={
         <ActionPanel>
-          <Action.OpenInBrowser title="Open Video" url={formatUrl(props.url)} />
+          <Action.OpenInBrowser
+            title="Open Video"
+            url={formatUrl(props.url)}
+            onOpen={props.onOpenCallback}
+          />
           <Action.Push
             icon={Icon.QuoteBlock}
             title="AI Summary"
-            target={<ConclusionView bvid={props.bivd} cid={props.cid || 0} up_mid={props.uploader.mid} />}
+            target={<ConclusionView bvid={props.bvid} cid={props.cid || 0} up_mid={props.uploader.mid} />}
           />
-          {props.markAsWatchedCallBack && (
+          {props.markAsWatchedCallback && (
             <Action.SubmitForm
               title="Mark as Watched"
               shortcut={{ modifiers: ["cmd", "shift"], key: "enter" }}
               icon={Icon.CircleProgress100}
               onSubmit={async () => {
-                await props.markAsWatchedCallBack();
+                props.markAsWatchedCallback && (await props.markAsWatchedCallback());
               }}
             />
           )}

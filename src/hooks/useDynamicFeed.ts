@@ -24,12 +24,12 @@ export function useDynamicFeed() {
             const videoPlayUrl = await getPlayUrl(videoInfo.bvid, videoInfo.cid.toString());
 
             // save played video aid into watchedList
-            if (videoPlayUrl.last_play_time) {
-              setWatchedList([aid, ...watchedList].slice(0, 200));
+            if (videoPlayUrl.last_play_time && !watchedList.includes(videoInfo.bvid)) {
+              setWatchedList([videoInfo.bvid, ...watchedList].slice(0, 200));
             }
 
             item.modules.module_dynamic.major.archive.last_play_time =
-              videoPlayUrl.last_play_time || +watchedList.includes(aid);
+              videoPlayUrl.last_play_time || +watchedList.includes(videoInfo.bvid);
 
             return item;
           })

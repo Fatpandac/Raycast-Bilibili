@@ -28,7 +28,7 @@ export default function Command() {
         <Video
           title={item.title}
           cover={item.pic}
-          bivd={item.bvid}
+          bvid={item.bvid}
           cid={item.cid}
           url={item.short_link || item.short_link_v2}
           uploader={{
