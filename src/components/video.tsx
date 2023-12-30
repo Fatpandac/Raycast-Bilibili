@@ -63,7 +63,7 @@ export function Video(props: {
       title={props.title}
       detail={
         <List.Item.Detail
-          markdown={`![Cover](${formatUrl(props.cover)})`}
+          markdown={`<img src="${formatUrl(props.cover)}" center width="300" />`}
           metadata={
             <List.Item.Detail.Metadata>
               <List.Item.Detail.Metadata.Label title={props.title} />
@@ -119,6 +119,7 @@ export function Video(props: {
           <Action
             title="Add reminder to watch later"
             onAction={addWatchLaterReminder}
+            icon={Icon.CheckCircle}
             shortcut={{ modifiers: ["cmd"], key: "r" }}
           />
           <Action.OpenInBrowser

@@ -3,6 +3,7 @@
 ## [New Feature] - 2023-12-30
 
 - Support add watch later reminder into the reminder.app
+- Show all images on the first screen
 
 ## [New Feature] - 2023-11-13
 
