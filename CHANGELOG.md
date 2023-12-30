@@ -1,5 +1,9 @@
 # Bilibili Changelog
 
+## [New Feature] - 2023-12-30
+
+- Support add watch later reminder into the reminder.app
+
 ## [New Feature] - 2023-11-13
 
 - Support AI summary video
