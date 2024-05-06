@@ -13,8 +13,6 @@
 - 订阅更新推送 (Notifications)
 - Cmd + Enter 查看对应视频 AI 总结
 - 浏览个人推荐视频 (Recommend Videos)
-- 浏览热门视频 (Popular Videos)
-- 每周热门 (Weekly Popular Series)
 
 ### 配置
 
