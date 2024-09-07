@@ -11,3 +11,4 @@ export * from "./getVideoInfo";
 export * from "./postHeartbeat";
 export * from "./getDynamicFeed";
 export * from "./gennerateQRCode";
+export * from "./getSearchVideos";
