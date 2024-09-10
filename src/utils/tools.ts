@@ -63,3 +63,7 @@ export async function encWbi(params: any) {
 
   return { w_rid, wts };
 }
+
+export function removeEmHTMLTag(str: string) {
+  return str.replace(/<em class=["']keyword["']>(.+?)<\/em>/g, "$1");
+}

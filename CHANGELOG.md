@@ -1,5 +1,9 @@
 # Bilibili Changelog
 
+## [New Feature] - 2024-09-10
+
+- Support search videos
+
 ## [New Feature] - 2023-12-30
 
 - Support add watch later reminder into the reminder.app
