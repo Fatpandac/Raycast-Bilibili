@@ -9,7 +9,7 @@ import { List, showToast, Toast } from "@raycast/api";
 
 type KindType = { id: string; name: string };
 
-function DrinkDropdown(props: { kindTypes: KindType[]; onKindTypeChange: (newValue: string) => void }) {
+function FilterDropdown(props: { kindTypes: KindType[]; onKindTypeChange: (newValue: string) => void }) {
   const { kindTypes, onKindTypeChange } = props;
   return (
     <List.Dropdown
@@ -56,6 +56,10 @@ export default function Command() {
 
   const dynamicComponentSelector = (item: Bilibili.DynamicItem) => {
     const { pub_ts, mid, name, face } = item.modules.module_author;
+
+    const isPost = (item: Bilibili.DynamicItem): item is Bilibili.DynamicPost => {
+      return ["DYNAMIC_TYPE_FORWARD", "DYNAMIC_TYPE_WORD", "DYNAMIC_TYPE_DRAW"].includes(item.type)
+    };
 
     if (item.type === "DYNAMIC_TYPE_AV") {
       const { aid, title, cover, jump_url, bvid, duration_text, badge, stat, last_play_time } =
@@ -107,8 +111,8 @@ export default function Command() {
           }
         />
       );
-    } else if (["DYNAMIC_TYPE_FORWARD", "DYNAMIC_TYPE_WORD", "DYNAMIC_TYPE_DRAW"].includes(item.type)) {
-      const { text } = (item as Bilibili.DynamicPost).modules.module_dynamic.desc;
+    } else if (isPost(item)) {
+      const { text } = item.modules.module_dynamic.desc;
       const { like, forward, comment } = item.modules.module_stat;
 
       return (
@@ -185,7 +189,7 @@ export default function Command() {
         filtering={false}
         isLoading={isLoading}
         isShowingDetail={true}
-        searchBarAccessory={<DrinkDropdown kindTypes={kindTypes} onKindTypeChange={onKindTypeChange} />}
+        searchBarAccessory={<FilterDropdown kindTypes={kindTypes} onKindTypeChange={onKindTypeChange} />}
       >
         {dynamicItems
           ?.filter((item: Bilibili.DynamicItem) => filterMap[filterType as keyof typeof filterMap](item))
