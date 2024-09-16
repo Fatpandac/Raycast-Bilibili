@@ -1,10 +1,11 @@
-import { useDynamicFeed } from "./hooks";
 import { formatUrl } from "./utils";
-import { checkLogin, getVideoInfo, postHeartbeat } from "./apis";
-import { NoLoginView, Post, Video } from "./components";
-import { List, showToast, Toast } from "@raycast/api";
+import { useDynamicFeed } from "./hooks";
+import { getVideoInfo, postHeartbeat } from "./apis";
+import { CheckLogin, Post, Video } from "./components";
+
 import { useState } from "react";
 import { useCachedState } from "@raycast/utils";
+import { List, showToast, Toast } from "@raycast/api";
 
 type KindType = { id: string; name: string };
 
@@ -28,8 +29,6 @@ function DrinkDropdown(props: { kindTypes: KindType[]; onKindTypeChange: (newVal
 }
 
 export default function Command() {
-  if (!checkLogin()) return <NoLoginView />;
-
   const [filterType, setFilterType] = useState("");
   const { dynamicItems, isLoading, refetch } = useDynamicFeed();
   const [watchedList, setWatchedList] = useCachedState<Array<string>>("watchedList", []);
@@ -181,15 +180,17 @@ export default function Command() {
   };
 
   return (
-    <List
-      filtering={false}
-      isLoading={isLoading}
-      isShowingDetail={true}
-      searchBarAccessory={<DrinkDropdown kindTypes={kindTypes} onKindTypeChange={onKindTypeChange} />}
-    >
-      {dynamicItems
-        ?.filter((item: Bilibili.DynamicItem) => filterMap[filterType as keyof typeof filterMap](item))
-        .map(dynamicComponentSelector)}
-    </List>
+    <CheckLogin>
+      <List
+        filtering={false}
+        isLoading={isLoading}
+        isShowingDetail={true}
+        searchBarAccessory={<DrinkDropdown kindTypes={kindTypes} onKindTypeChange={onKindTypeChange} />}
+      >
+        {dynamicItems
+          ?.filter((item: Bilibili.DynamicItem) => filterMap[filterType as keyof typeof filterMap](item))
+          .map(dynamicComponentSelector)}
+      </List>
+    </CheckLogin>
   );
 }
