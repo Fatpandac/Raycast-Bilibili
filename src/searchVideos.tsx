@@ -28,7 +28,6 @@ export default function Command() {
         }}
       >
         {videoResults?.map((item) => {
-          console.log(item)
           return (
             <Video
               title={removeEmHTMLTag(item.title)}
@@ -50,7 +49,6 @@ export default function Command() {
               }}
             />
           )
-
         })}
       </List>
     </CheckLogin>
