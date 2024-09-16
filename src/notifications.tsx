@@ -1,7 +1,9 @@
-import { runAppleScript } from "run-applescript";
-import { checkLogin, formatUrl, getDynamicFeed } from "./utils";
-import { getPreferenceValues, LocalStorage } from "@raycast/api";
+import { formatUrl } from "./utils";
+import { checkLogin, getDynamicFeed } from "./apis";
+
 import { spawnSync } from "child_process";
+import { runAppleScript } from "run-applescript";
+import { getPreferenceValues, LocalStorage } from "@raycast/api";
 
 interface Preferences {
   justNotifyVideos: boolean;

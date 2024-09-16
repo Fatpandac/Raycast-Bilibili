@@ -1,5 +1,6 @@
 import { NoLoginView, Video } from "./components";
-import { checkLogin, formatNumber, removeEmHTMLTag } from "./utils";
+import { checkLogin } from "./apis";
+import {formatNumber, removeEmHTMLTag} from "./utils";
 import { useState } from "react";
 import { useSearchVideos } from "./hooks";
 import { List } from "@raycast/api";

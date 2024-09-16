@@ -305,6 +305,7 @@ declare global {
       like_num: number;
       model_result: ModelResult;
     }
+
     export interface VideoConclusionResponse extends Omit<BaseResponse, "data"> {
       data: VideoConclusionResponseData;
     }

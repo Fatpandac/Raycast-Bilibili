@@ -1,5 +1,6 @@
 import { useDynamicFeed } from "./hooks";
-import { checkLogin, formatUrl, getVideoInfo, postHeartbeat } from "./utils";
+import { formatUrl } from "./utils";
+import { checkLogin, getVideoInfo, postHeartbeat } from "./apis";
 import { NoLoginView, Post, Video } from "./components";
 import { List, showToast, Toast } from "@raycast/api";
 import { useState } from "react";
@@ -88,21 +89,21 @@ export default function Command() {
           markAsWatchedCallback={
             last_play_time === 0
               ? async () => {
-                  try {
-                    const videoInfo = await getVideoInfo(aid);
+                try {
+                  const videoInfo = await getVideoInfo(aid);
 
-                    await postHeartbeat(videoInfo.aid, videoInfo.cid);
-                    if (!watchedList.includes(bvid)) setWatchedList([bvid, ...watchedList].slice(0, 200));
+                  await postHeartbeat(videoInfo.aid, videoInfo.cid);
+                  if (!watchedList.includes(bvid)) setWatchedList([bvid, ...watchedList].slice(0, 200));
 
-                    refetch({});
-                    await showToast({ style: Toast.Style.Success, title: "Make as watched successfully" });
-                  } catch {
-                    await showToast({
-                      style: Toast.Style.Failure,
-                      title: "Make as watched failed, please retry later",
-                    });
-                  }
+                  refetch({});
+                  await showToast({ style: Toast.Style.Success, title: "Make as watched successfully" });
+                } catch {
+                  await showToast({
+                    style: Toast.Style.Failure,
+                    title: "Make as watched failed, please retry later",
+                  });
                 }
+              }
               : undefined
           }
         />
