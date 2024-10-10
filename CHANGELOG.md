@@ -1,5 +1,9 @@
 # Bilibili Changelog
 
+## [Fix Bug] - 2024-10-10
+
+- Add HUD tips to notifications when user is not logged in.
+
 ## [New Feature] - 2024-09-10
 
 - Support search videos
