@@ -43,7 +43,7 @@ export default function Command() {
   ];
 
   const filterMap = {
-    "0": (_item: Bilibili.DynamicItem) => true,
+    "0": (item: Bilibili.DynamicItem) => !!item,
     "1": (item: Bilibili.DynamicItem) =>
       item.type === "DYNAMIC_TYPE_AV" ? item.modules.module_dynamic.major.archive.last_play_time === 0 : false,
     "2": (item: Bilibili.DynamicItem) =>
@@ -58,7 +58,7 @@ export default function Command() {
     const { pub_ts, mid, name, face } = item.modules.module_author;
 
     const isPost = (item: Bilibili.DynamicItem): item is Bilibili.DynamicPost => {
-      return ["DYNAMIC_TYPE_FORWARD", "DYNAMIC_TYPE_WORD", "DYNAMIC_TYPE_DRAW"].includes(item.type)
+      return ["DYNAMIC_TYPE_FORWARD", "DYNAMIC_TYPE_WORD", "DYNAMIC_TYPE_DRAW"].includes(item.type);
     };
 
     if (item.type === "DYNAMIC_TYPE_AV") {
@@ -112,7 +112,7 @@ export default function Command() {
         />
       );
     } else if (isPost(item)) {
-      const { text } = item.modules.module_dynamic.desc;
+      const { text = `${item.modules.module_author.name}'s Post` } = item.modules.module_dynamic.desc || {};
       const { like, forward, comment } = item.modules.module_stat;
 
       return (
